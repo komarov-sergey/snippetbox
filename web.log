@@ -1,0 +1,1 @@
+{"time":"2023-11-27T11:58:17.097819+03:00","level":"INFO","source":{"function":"main.main","file":"/Users/sergeykomarov/Desktop/projects/my/go/snippetbox/cmd/web/main.go","line":28},"msg":"starting server","addr":":4000"}
