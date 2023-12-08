@@ -7,6 +7,8 @@ go run ./cmd/web
 go run ./cmd/web >>/tmp/web.log
 go run ./cmd/web -addr=":9999"
 go run ./cmd/web -help
+go mod verify
+go mod download
 ```
 
 ### db:
