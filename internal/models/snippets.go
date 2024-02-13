@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -45,6 +46,10 @@ func (m *SnippetModel) Get(id int) (Snippet, error) {
 	var s Snippet
 
 	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+
+	fmt.Println("1 inside snippets")
+	fmt.Println(s)
+
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return Snippet{}, ErrNoRecord

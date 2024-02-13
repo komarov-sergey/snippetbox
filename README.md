@@ -9,6 +9,7 @@ go run ./cmd/web -addr=":9999"
 go run ./cmd/web -help
 go mod verify
 go mod download
+nodemon --exec go run ./cmd/web/main.go --signal SIGTERM
 ```
 
 ### db:

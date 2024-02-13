@@ -4,17 +4,19 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
-	"runtime/debug"
+	"time"
+	// "runtime/debug"
 )
 
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
-	var (
-		method = r.Method
-		uri    = r.URL.RequestURI()
-		trace  = string(debug.Stack())
-	)
+	// var (
+	// 	method = r.Method
+	// 	uri    = r.URL.RequestURI()
+	// 	trace  = string(debug.Stack())
+	// )
 
-	app.logger.Error(err.Error(), "method", method, "uri", uri, "trace", trace)
+	// app.logger.Error(err.Error(), "method", method, "uri", uri, "trace", trace)
+	app.logger.Error(err.Error())
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
@@ -36,11 +38,20 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 
 	buf := new(bytes.Buffer)
 
-	// w.WriteHeader(status)
+	err := ts.ExecuteTemplate(buf, "base", data)
 
-	// err := ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
 
-	// if err != nil {
-	// 	app.serverError(w, r, err)
-	// }
+	w.WriteHeader(status)
+
+	buf.WriteTo(w)
+}
+
+func (app *application) newTemplateData(r *http.Request) templateData {
+	return templateData{
+		CurrentYear: time.Now().Year(),
+	}
 }
